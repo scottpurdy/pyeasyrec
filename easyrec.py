@@ -90,6 +90,113 @@ class EasyRec(object):
         root = ElementTree(file=urllib.urlopen(url)).getroot()
         assert root.tag == 'easyrec'
 
+    def otherusersalsoviewed(self, itemid, userid=None):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'itemid': itemid
+        })
+        if userid is not None:
+            args['userid'] = userid
+        url = (self.base_url + 'api/1.0/otherusersalsoviewed?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            response.append(item)
+        return response
+
+    def otherusersalsobought(self, itemid, userid=None):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'itemid': itemid
+        })
+        if userid is not None:
+            args['userid'] = userid
+        url = (self.base_url + 'api/1.0/otherusersalsobought?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            response.append(item)
+        return response
+
+    def itemsratedgoodbyotherusers(self, itemid, userid=None):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'itemid': itemid
+        })
+        if userid is not None:
+            args['userid'] = userid
+        url = (self.base_url + 'api/1.0/itemsratedgoodbyotherusers?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            response.append(item)
+        return response
+
+    def recommendationsforuser(self, userid):
+        """Retrieves recommendations for the user.
+        
+        Returns:
+            a list of dictionaries mapping response item parameters to values
+        """
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'userid': userid
+        })
+        url = (self.base_url + 'api/1.0/recommendationsforuser?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            response.append(item)
+        return response
+
     def importrule(self, security_token, itemfromid, itemtoid, assocvalue,
             assoctype):
         args = ({
@@ -121,35 +228,6 @@ class EasyRec(object):
         #root = ElementTree(file=).getroot()
         root = etree.fromstring(resp)#.getroot()
         assert root.tag == 'easyrec'
-
-    def recommendationsforuser(self, userid):
-        """Retrieves recommendations for the user.
-        
-        Returns:
-            a list of dictionaries mapping response item parameters to values
-        """
-        args = ({
-            'apikey': self.apikey,
-            'tenantid': self.tenantid,
-            'userid': userid
-        })
-        url = (self.base_url + 'api/1.0/recommendationsforuser?' + 
-                urllib.urlencode(args))
-        root = ElementTree(file=urllib.urlopen(url)).getroot()
-        assert root.tag == 'easyrec'
-        recommended_items = root.find('recommendeditems')
-        response = []
-        for item_element in recommended_items.findall('item'):
-            item = ({'id': item_element.find('id').text,
-                'type': item_element.find('type').text,
-                'description': item_element.find('description').text,
-                'url': item_element.find('url').text.strip()
-            })
-            imageurl = item_element.find('imageurl').text
-            if imageurl is not None and imageurl != '':
-                item['imageurl'] = imageurl
-            response.append(item)
-        return response
 
 def _datetime_to_str(datetime):
     return datetime.strftime("%d_%m_%Y_%H_%M_%S")
