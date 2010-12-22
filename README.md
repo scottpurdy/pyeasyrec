@@ -19,5 +19,6 @@ This should work with Python 2.6.x and 2.7.x and requires no external dependenci
 
 Install
 -------
-Put `easyrec.py` on your PYTHONPATH.  I am planning on creating a setuptools package soon.
+
+Install as a standard distutils package.
 
