@@ -197,6 +197,136 @@ class EasyRec(object):
             response.append(item)
         return response
 
+    def mostvieweditems(self, numberOfResults, timeRange):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'numberOfResults': numberOfResults,
+            'timeRange': timeRange, 
+        })
+        url = (self.base_url + 'api/1.0/mostvieweditems?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            item['value'] = float(item_element.find('value').text)
+            response.append(item)
+        return response
+
+    def mostboughtitems(self, numberOfResults, timeRange):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'numberOfResults': numberOfResults,
+            'timeRange': timeRange, 
+        })
+        url = (self.base_url + 'api/1.0/mostboughtitems?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            item['value'] = float(item_element.find('value').text)
+            response.append(item)
+        return response
+
+    def mostrateditems(self, numberOfResults, timeRange):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'numberOfResults': numberOfResults,
+            'timeRange': timeRange, 
+        })
+        url = (self.base_url + 'api/1.0/mostrateditems?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            item['value'] = float(item_element.find('value').text)
+            response.append(item)
+        return response
+
+    def bestrateditems(self, numberOfResults, timeRange):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'numberOfResults': numberOfResults,
+            'timeRange': timeRange, 
+        })
+        url = (self.base_url + 'api/1.0/bestrateditems?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            item['value'] = float(item_element.find('value').text)
+            response.append(item)
+        return response
+
+    def worstrateditems(self, numberOfResults, timeRange):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'numberOfResults': numberOfResults,
+            'timeRange': timeRange, 
+        })
+        url = (self.base_url + 'api/1.0/worstrateditems?' + 
+                urllib.urlencode(args))
+        root = ElementTree(file=urllib.urlopen(url)).getroot()
+        assert root.tag == 'easyrec'
+        recommended_items = root.find('recommendeditems')
+        response = []
+        for item_element in recommended_items.findall('item'):
+            item = ({'id': item_element.find('id').text,
+                'type': item_element.find('type').text,
+                'description': item_element.find('description').text,
+                'url': item_element.find('url').text.strip()
+            })
+            imageurl = item_element.find('imageurl').text
+            if imageurl is not None and imageurl != '':
+                item['imageurl'] = imageurl
+            item['value'] = float(item_element.find('value').text)
+            response.append(item)
+        return response
+
     def importrule(self, security_token, itemfromid, itemtoid, assocvalue,
             assoctype):
         args = ({
@@ -231,4 +361,4 @@ class EasyRec(object):
 
 def _datetime_to_str(datetime):
     return datetime.strftime("%d_%m_%Y_%H_%M_%S")
-    
+
