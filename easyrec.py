@@ -27,7 +27,7 @@ class EasyRec(object):
         return token
 
     def view(self, userid, sessionid, itemid, itemdescription, itemurl, 
-            itemimageurl=None, actiontime=None):
+            itemimageurl=None, actiontime=None,itemtype=None):
         # Set up the arguments for the REST call.
         args = ({
             'apikey': self.apikey,
@@ -42,6 +42,9 @@ class EasyRec(object):
             args['itemimageurl'] = itemimageurl
         if actiontime is not None:
             args['actiontime'] = _datetime_to_str(actiontime)
+
+        if itemtype is not None:
+            args['itemtype'] = itemtype
 
         # Make the request and verify success.
         url = self.base_url + 'api/1.0/view?' + urllib.urlencode(args)
@@ -353,6 +356,21 @@ class EasyRec(object):
         if itemimageurl is not None:
             args['itemimageurl'] = itemimageurl
         url = self.base_url + 'api/1.0/importitem?' + urllib.urlencode(args)
+        resp = urllib.urlopen(url).read()
+
+        #root = ElementTree(file=).getroot()
+        root = etree.fromstring(resp)#.getroot()
+        assert root.tag == 'easyrec'
+
+    def setitemactive(self, itemid, active):
+        args = ({
+            'apikey': self.apikey,
+            'tenantid': self.tenantid,
+            'itemid': str(itemid),
+            'active': str(active),
+        })
+        url = self.base_url + 'api/1.0/setitemactive?' + urllib.urlencode(args)
+
         resp = urllib.urlopen(url).read()
 
         #root = ElementTree(file=).getroot()
