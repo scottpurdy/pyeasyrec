@@ -1,12 +1,13 @@
 """Python binding for EasyRec REST API."""
 
-from xml.etree.ElementTree import ElementTree
-from xml.etree import ElementTree as etree
 import urllib
+from xml.etree import ElementTree as etree
+from xml.etree.ElementTree import ElementTree
 
 VIEWED_TOGETHER = "VIEWED_TOGETHER"
 BOUGHT_TOGETHER = "BOUGHT_TOGETHER"
 GOOD_RATED_TOGETHER = "GOOD_RATED_TOGETHER"
+
 
 class EasyRec(object):
 
@@ -26,8 +27,8 @@ class EasyRec(object):
         token = root.find('token').text
         return token
 
-    def view(self, userid, sessionid, itemid, itemdescription, itemurl, 
-            itemimageurl=None, actiontime=None,itemtype=None):
+    def view(self, userid, sessionid, itemid, itemdescription, itemurl,
+            itemimageurl=None, actiontime=None, itemtype=None):
         # Set up the arguments for the REST call.
         args = ({
             'apikey': self.apikey,
@@ -48,9 +49,7 @@ class EasyRec(object):
 
         # Make the request and verify success.
         url = self.base_url + 'api/1.0/view?' + urllib.urlencode(args)
-        #root = ElementTree(file=urllib.urlopen(url)).getroot()
         s = urllib.urlopen(url).read()
-        print args,repr(s)
         root = etree.fromstring(s)
         assert root.tag == 'easyrec'
 
@@ -173,7 +172,7 @@ class EasyRec(object):
 
     def recommendationsforuser(self, userid):
         """Retrieves recommendations for the user.
-        
+
         Returns:
             a list of dictionaries mapping response item parameters to values
         """
@@ -358,8 +357,7 @@ class EasyRec(object):
         url = self.base_url + 'api/1.0/importitem?' + urllib.urlencode(args)
         resp = urllib.urlopen(url).read()
 
-        #root = ElementTree(file=).getroot()
-        root = etree.fromstring(resp)#.getroot()
+        root = etree.fromstring(resp)
         assert root.tag == 'easyrec'
 
     def setitemactive(self, itemid, active):
@@ -373,10 +371,9 @@ class EasyRec(object):
 
         resp = urllib.urlopen(url).read()
 
-        #root = ElementTree(file=).getroot()
-        root = etree.fromstring(resp)#.getroot()
+        root = etree.fromstring(resp)
         assert root.tag == 'easyrec'
+
 
 def _datetime_to_str(datetime):
     return datetime.strftime("%d_%m_%Y_%H_%M_%S")
-
